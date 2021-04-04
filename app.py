@@ -13,9 +13,11 @@ st.text_area('Context that you want to talk', 'Shopping in the bixbog store',
               )
 
 option = st.sidebar.selectbox('Choose language',
-                              ('ch', 'jp', 'th')
+                              (('ch','Chinese'), 
+                               ('jp','Japanese'), 
+                               ('th','Thai'))
                              )
-st.sidebar.write('You selected:', option)
+st.sidebar.write('You selected:', option[0])
 
 col1, col2 = st.beta_columns(2)
 
