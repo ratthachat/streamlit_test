@@ -18,12 +18,15 @@ col1.write(text+"555")
 
 # outputs={
 
+xx = 'hey'
+yy = 102
+
 table_md = f'''
     |Script/Language|Eng|Lang|
     |--|--|--|
-    |Conversation|**{xx}**|{xr}|
-    |Bot Latest|{xy}|**{xq}**|
-    |You say|{xz}|{xw}|
+    |Conversation|**{xx}**|{yy}|
+    |Bot Latest|{xx}|**{yy}**|
+    |You say|{xx}|{yy}|
     '''
     
 col2.markdown(table_md)
