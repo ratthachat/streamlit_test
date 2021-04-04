@@ -14,7 +14,7 @@ st.text_area('Context that you want to talk', 'Shopping in the bixbog store',
 
 option = st.sidebar.selectbox('Choose language',
                               (('zh-CN','Chinese Mandarin'), 
-                               ('jp','Japanese'), 
+                               ('ja','Japanese'), 
                                ('th','Thai'))
                              )
 chosen_lang = option[0]
