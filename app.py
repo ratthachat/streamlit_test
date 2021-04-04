@@ -1,15 +1,12 @@
 import streamlit as st
 import pandas as pd
+from googletrans import Translator
+translator = Translator()
 
-st.title('My first app')
+st.title('Streamlit Lingo Bot')
+col1, col2 = st.beta_columns(2)
 
-st.write("Here's our first attempt at using data to create a table:")
-st.write(pd.DataFrame({
-    'first column': [1, 2, 3, 4],
-    'second column': [10, 20, 30, 40]
-}))
-
-text = st.text_area(
+text = col1.text_area(
     "Your text",
     "I dreamed a dream."
 )
@@ -17,4 +14,13 @@ text = st.text_area(
 if not text:
     text = "Emptiness"
 
-st.write(text+"555")
+col1.write(text+"555")
+
+table_md = f'''
+    |Script/Language|Hindi|Urdu|
+    |--|--|--|
+    |DevaNāgarī|**{outputs['hi']}**|{outputs['u2h']}|
+    |PersoArabic|{outputs['h2u']}|**{outputs['ur']}**|
+    |Roman (Approx)|{outputs['h2e']}|{outputs['u2e']}|
+    '''
+col2.markdown(table_md)
