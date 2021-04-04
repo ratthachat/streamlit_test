@@ -3,7 +3,7 @@ import pandas as pd
 from googletrans import Translator
 translator = Translator()
 
-# st.beta_set_page_config(layout="wide")
+st.set_page_config(layout="wide")
 st.title('Streamlit Lingo Bot')
 st.write(f'streamlit version : {st.__version__}')
 col1, col2 = st.beta_columns(2)
