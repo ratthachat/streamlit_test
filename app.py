@@ -16,11 +16,14 @@ if not text:
 
 col1.write(text+"555")
 
+# outputs={
+
 table_md = f'''
-    |Script/Language|Hindi|Urdu|
+    |Script/Language|Eng|Lang|
     |--|--|--|
-    |DevaNāgarī|**{outputs['hi']}**|{outputs['u2h']}|
-    |PersoArabic|{outputs['h2u']}|**{outputs['ur']}**|
-    |Roman (Approx)|{outputs['h2e']}|{outputs['u2e']}|
+    |Conversation|**{xx}**|{xr}|
+    |Bot Latest|{xy}|**{xq}**|
+    |You say|{xz}|{xw}|
     '''
+    
 col2.markdown(table_md)
