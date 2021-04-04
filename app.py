@@ -15,16 +15,28 @@ translated_text = translator.translate(prompt_text, dest='th').text
 xx = 'hey my name is Jung'
 yy = 'ผมเป็นคนเก่งมากๆ ครับ'
 col1.text_area(prompt_text)
+
 col1.write(xx)
 tts = gTTS(xx)
-col1.audio(tts)
+sound_file1 = '1.wav'
+tts.save(sound_file1)
+audio_file = open(sound_file1, 'rb')
+audio_bytes = audio_file.read()
+col1.audio(audio_bytes)
+
 col1.text_input('your input:')
 
 
 col2.text_area(translated_text)
+
 col2.write(yy)
 tts2 = gTTS(yy)
-col2.audio(tts2)
+sound_file2 = '2.wav'
+tts2.save(sound_file2)
+audio_file2 = open(sound_file2, 'rb')
+audio_bytes2 = audio_file2.read()
+col2.audio(audio_bytes2)
+
 col2.text_input('ใส่ข้อความ:')
 
 # text = col1.text_area(
