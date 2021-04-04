@@ -14,7 +14,7 @@ translated_text = translator.translate(prompt_text, dest='th').text
 
 xx = 'hey my name is Jung'
 yy = 'ผมเป็นคนเก่งมากๆ ครับ'
-col1.text_area(prompt_text)
+col1.text_area('conversation so far', prompt_text)
 
 col1.write(xx)
 tts = gTTS(xx)
@@ -27,10 +27,10 @@ col1.audio(audio_bytes)
 col1.text_input('your input:')
 
 
-col2.text_area(translated_text)
+col2.text_area('บทสนทนาที่ผ่านมา', translated_text)
 
 col2.write(yy)
-tts2 = gTTS(yy)
+tts2 = gTTS(yy,lang='th')
 sound_file2 = '2.wav'
 tts2.save(sound_file2)
 audio_file2 = open(sound_file2, 'rb')
