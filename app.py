@@ -8,9 +8,9 @@ st.set_page_config(layout="wide")
 st.title('Streamlit Lingo Bot')
 st.write(f'streamlit version : {st.__version__}')
 
-st.text_area('Context that you want to talk', 'Shopping in the bixbog store', 
-#                height=300
-              )
+# st.text_area('Context that you want to talk', 'Shopping in the bixbog store', 
+# #                height=300
+#               )
 
 lang_option = st.sidebar.selectbox('Choose language',
                               (('zh-CN','Chinese Mandarin'), 
@@ -86,26 +86,4 @@ audio_file2 = open(sound_file2, 'rb')
 audio_bytes2 = audio_file2.read()
 col2.audio(audio_bytes2)
 
-col2.text_input('ใส่ข้อความ:')
-
-# text = col1.text_area(
-#     "Your text",
-#     "I dreamed a dream."
-# )
-# if not text:
-#     text = "Emptiness"
-# col1.write(text+"555")
-
-# outputs={
-
-
-
-# table_md = f'''
-#     |Script/Language|Eng|Lang|
-#     |--|--|--|
-#     |Conversation|**{xx}**|{yy}|
-#     |Bot Latest|{xx}|**{yy}**|
-#     |You say|{xx}|{yy}|
-#     '''
-    
-# col2.markdown(table_md)
+col2.text_input(translator.translate('Your input: ', dest=chosen_lang).text)
