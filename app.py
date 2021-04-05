@@ -12,13 +12,48 @@ st.text_area('Context that you want to talk', 'Shopping in the bixbog store',
 #                height=300
               )
 
-option = st.sidebar.selectbox('Choose language',
+lang_option = st.sidebar.selectbox('Choose language',
                               (('zh-CN','Chinese Mandarin'), 
                                ('ja','Japanese'), 
                                ('th','Thai'))
                              )
-chosen_lang = option[0]
+chosen_lang = lang_option[0]
 st.sidebar.write('You selected:', chosen_lang)
+
+level_option = st.sidebar.selectbox('Conversation level :',
+                              ('8 Years Old', 
+                               'High School', 
+                               'Bachelor Degree',
+                              )
+                             )
+st.sidebar.write('You selected:', level_option)
+
+who_option = st.sidebar.selectbox('A person you talk with :',
+                              ('Friend', 
+                               'Staff', 
+                               'Teacher',
+                               'Kid'
+                              )
+                             )
+st.sidebar.write('You selected:', who_option)
+
+where_option = st.sidebar.selectbox('At a place :',
+                              ('Shopping Mall', 
+                               'Restaurant', 
+                               'Cafeteria',
+                               'School',
+                               'Cinema',
+                               'Public Park',
+                               'Electronic Shop',
+                               'Concert Hall',
+                               'University',
+                               'Library',
+                               'Bookshop',
+                               'Online Chat',
+                              )
+                             )
+st.sidebar.write('You selected:', where_option)
+
 
 col1, col2 = st.beta_columns(2)
 
