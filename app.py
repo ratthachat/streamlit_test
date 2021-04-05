@@ -54,6 +54,9 @@ where_option = st.sidebar.selectbox('At a place :',
                              )
 st.sidebar.write('You selected:', where_option)
 
+context_texts = f'You meet your **{who_option.lower()}** at a **{where_option.lower()}**. You can talk anything to your **{who_option.lower()}** here, just like real-life conversation'
+translated_context = translator.translate(context_texts, dest=chosen_lang).text
+st.markdown(context_texts + '\n\n' + translated_context)
 
 col1, col2 = st.beta_columns(2)
 
