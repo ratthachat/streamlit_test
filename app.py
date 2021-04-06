@@ -121,13 +121,10 @@ else:
     col2 = st
 
 current_conversation = init_conversation
-translated_current_conversation = translator.translate(current_conversation, lang_tgt=chosen_lang)
-
 latest_bot_reply = extract_sentence_ignore_who(init_conversation)
-translated_latest_bot_reply = translator.translate(latest_bot_reply, lang_tgt=chosen_lang)
 
 if show_eng:
-    col1.text_area('conversation so far', current_conversation, height=300, key = widget_count)
+    current_conversation = col1.text_area('conversation so far', current_conversation, height=300, key = widget_count)
     widget_count += 1
 
     col1.write(latest_bot_reply)
@@ -138,8 +135,10 @@ if show_eng:
     audio_bytes = audio_file.read()
     col1.audio(audio_bytes)
 
-    col1.text_input('Your input:')
+#     col1.text_input('Your input:')
 
+translated_current_conversation = translator.translate(current_conversation, lang_tgt=chosen_lang)
+translated_latest_bot_reply = translator.translate(latest_bot_reply, lang_tgt=chosen_lang)
 title_lang = translator.translate('conversation so far', lang_tgt=chosen_lang)
 col2.text_area(title_lang, translated_current_conversation, height=300, key = widget_count)
 widget_count += 1
@@ -151,6 +150,6 @@ tts2.save(sound_file2)
 audio_file2 = open(sound_file2, 'rb')
 audio_bytes2 = audio_file2.read()
 col2.audio(audio_bytes2)
-latest_input = col2.text_input(translator.translate('Your input: ', lang_tgt=chosen_lang))
 
+# latest_input = col2.text_input(translator.translate('Your input: ', lang_tgt=chosen_lang))
 # en_latest_input = translator.translate(latest_input, lang_tgt='en')
