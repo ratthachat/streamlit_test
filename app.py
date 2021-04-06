@@ -124,7 +124,7 @@ if show_eng:
 
 title_lang = translator.translate('conversation so far', dest=chosen_lang).text
 col2.text_area(title_lang, translated_text, height=300, key = widget_count)
-    widget_count += 1
+widget_count += 1
 
 col2.write(yy)
 tts2 = gTTS(yy,lang=chosen_lang)
