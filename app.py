@@ -65,7 +65,9 @@ st.sidebar.write('You selected:', where_option)
 
 # context_texts = f'You meet a **{who_option.lower()}** at a **{where_option.lower()}**. You can talk anything to that **{who_option.lower()}** here, just like real-life conversation'
 context_texts = f'You meet a {who_option.lower()} at a {where_option.lower()}. You can talk anything to that {who_option.lower()} here, just like real-life conversation'
-translated_context = translator.translate(context_texts, lang_tgt=chosen_lang).text
+
+# translated_context = translator.translate(context_texts, dest=chosen_lang).text
+translated_context = translator.translate(context_texts, lang_tgt=chosen_lang)
 st.markdown(context_texts + '\n\n' + translated_context)
 
 ##### GPT3 part I -- Prompt generation
