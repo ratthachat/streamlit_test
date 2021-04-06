@@ -2,4 +2,6 @@ streamlit
 pandas
 openai
 googletrans==3.1.0a0
+google_trans_new
+booste
 gTTS
