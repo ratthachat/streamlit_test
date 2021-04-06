@@ -4,7 +4,8 @@ from googletrans import Translator # somehow, this stop working
 from google_trans_new import google_translator  
 from gtts import gTTS
 
-translator = google_translator() #Translator()
+translator = google_translator()
+translator2 = Translator()
 
 import os
 import openai
@@ -66,9 +67,10 @@ st.sidebar.write('You selected:', where_option)
 # context_texts = f'You meet a **{who_option.lower()}** at a **{where_option.lower()}**. You can talk anything to that **{who_option.lower()}** here, just like real-life conversation'
 context_texts = f'You meet a {who_option.lower()} at a {where_option.lower()}. You can talk anything to that {who_option.lower()} here, just like real-life conversation'
 
-# translated_context = translator.translate(context_texts, dest=chosen_lang).text
+
 translated_context = translator.translate(context_texts, lang_tgt=chosen_lang)
-st.markdown(context_texts + '\n\n' + translated_context)
+translated_context2 = translator2.translate(context_texts, dest=chosen_lang).text
+st.markdown(context_texts + '\n\n' + translated_context + '\n\n' + translated_context2)
 
 ##### GPT3 part I -- Prompt generation
 
