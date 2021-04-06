@@ -83,7 +83,9 @@ def get_init_prompt(start_sentence, level):
     stop=["#####"]
   )
   
-  return Jung_Lingo_init + current_selection + response
+  generated_texts = response['choices'][0].text
+  
+  return Jung_Lingo_init + current_selection + generated_texts
 
 if show_hidden:
     st.text_area('hidden prompt', get_init_prompt(context_texts, level_option), height=300)
