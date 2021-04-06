@@ -17,7 +17,7 @@ st.write(f'streamlit version : {st.__version__}')
 
 ##### Sidebar
 lang_option = st.sidebar.selectbox('Choose language',
-                              (('zh-CN','Chinese Mandarin'), 
+                              (('zh-cn','Chinese Mandarin'), 
                                ('ja','Japanese'), 
                                ('th','Thai')), 
                              )
