@@ -151,5 +151,6 @@ tts2.save(sound_file2)
 audio_file2 = open(sound_file2, 'rb')
 audio_bytes2 = audio_file2.read()
 col2.audio(audio_bytes2)
+latest_input = col2.text_input(translator.translate('Your input: ', lang_tgt=chosen_lang))
 
-col2.text_input(translator.translate('Your input: ', lang_tgt=chosen_lang))
+# en_latest_input = translator.translate(latest_input, lang_tgt='en')
