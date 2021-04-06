@@ -9,14 +9,17 @@ import openai
 
 
 ##########################
+widget_count= 0
+
 st.set_page_config(layout="wide")
 st.title('Streamlit Lingo Bot')
 st.write(f'streamlit version : {st.__version__}')
 
+##### Sidebar
 lang_option = st.sidebar.selectbox('Choose language',
                               (('zh-CN','Chinese Mandarin'), 
                                ('ja','Japanese'), 
-                               ('th','Thai'))
+                               ('th','Thai')), 
                              )
 chosen_lang = lang_option[0]
 st.sidebar.write('You selected:', chosen_lang)
@@ -56,6 +59,7 @@ where_option = st.sidebar.selectbox('At a place :',
                               )
                              )
 st.sidebar.write('You selected:', where_option)
+##### End sidebar
 
 # context_texts = f'You meet a **{who_option.lower()}** at a **{where_option.lower()}**. You can talk anything to that **{who_option.lower()}** here, just like real-life conversation'
 context_texts = f'You meet a {who_option.lower()} at a {where_option.lower()}. You can talk anything to that {who_option.lower()} here, just like real-life conversation'
@@ -89,8 +93,9 @@ def get_init_prompt(start_sentence, level):
   return Jung_Lingo_init + current_selection + generated_texts
 
 if show_hidden:
-    st.text_area('hidden prompt', get_init_prompt(context_texts, level_option), height=300)
-
+    st.text_area('hidden prompt', get_init_prompt(context_texts, level_option), height=300, key = widget_count)
+    widget_count += 1
+    
 ### Start Bot layout
 if show_eng:
     col1, col2 = st.beta_columns(2)
@@ -104,7 +109,8 @@ xx = 'hey my name is Jung'
 yy = translator.translate(xx, dest=chosen_lang).text #'ผมเป็นคนเก่งมากๆ ครับ'
 
 if show_eng:
-    col1.text_area('conversation so far', prompt_text, height=300)
+    col1.text_area('conversation so far', prompt_text, height=300, key = widget_count)
+    widget_count += 1
 
     col1.write(xx)
     tts = gTTS(xx)
@@ -117,7 +123,8 @@ if show_eng:
     col1.text_input('Your input:')
 
 title_lang = translator.translate('conversation so far', dest=chosen_lang).text
-col2.text_area(title_lang, translated_text, height=300)
+col2.text_area(title_lang, translated_text, height=300, key = widget_count)
+    widget_count += 1
 
 col2.write(yy)
 tts2 = gTTS(yy,lang=chosen_lang)
