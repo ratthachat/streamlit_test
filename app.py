@@ -74,7 +74,7 @@ def get_init_prompt(start_sentence, level):
   
   response = openai.Completion.create(
     engine="curie",
-    prompt= Jung_Lingo_init+current_selection
+    prompt= Jung_Lingo_init + Jung_Lingo_examples + current_selection,
     temperature=0.66,
     max_tokens=340,
     top_p=1,
