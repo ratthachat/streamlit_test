@@ -10,6 +10,7 @@ translator = google_translator()
 import os
 import openai
 
+state_file_name = 'all_chats_with_hidden_prompt_eng.txt'
 
 ##########################
 widget_count= 0
@@ -28,6 +29,10 @@ chosen_lang = lang_option[0]
 st.sidebar.write('You selected:', chosen_lang)
 
 show_eng = st.sidebar.checkbox('Show English conversation', value=True)
+
+if st.sidebar.button('Reset all conversation'):
+    if os.path.exists(state_file_name)
+        os.remove(state_file_name)
 
 level_option = st.sidebar.selectbox('Conversation level :',
                               ('8-Years Old', 
