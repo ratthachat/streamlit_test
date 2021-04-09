@@ -31,8 +31,9 @@ st.sidebar.write('You selected:', chosen_lang)
 show_eng = st.sidebar.checkbox('Show English conversation', value=True)
 
 if st.sidebar.button('Reset all conversation'):
-    if os.path.exists(state_file_name)
+    if os.path.exists(state_file_name):
         os.remove(state_file_name)
+        st.info('Reset conversation')
 
 level_option = st.sidebar.selectbox('Conversation level :',
                               ('8-Years Old', 
