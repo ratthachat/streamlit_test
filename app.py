@@ -99,7 +99,7 @@ def get_init_prompt(start_sentence, level, who_option):
 
 ### Start Bot layout
 context_en = f'You meet a {who_option.lower()} at a {where_option.lower()}. You can talk anything to that {who_option.lower()} here, just like real-life conversation'
-init_prompt_en, init_conversation_en = get_init_prompt(context_texts, level_option, who_option)
+init_prompt_en, init_conversation_en = get_init_prompt(context_en, level_option, who_option)
 user_pronoun_en = 'You'
 user_pronoun_lang = translator.translate(user_pronoun_en, lang_tgt=chosen_lang)
 who_option_lang = translator.translate(who_option, lang_tgt=chosen_lang)
