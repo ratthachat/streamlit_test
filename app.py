@@ -104,14 +104,14 @@ user_pronoun_en = 'You'
 user_pronoun_lang = translator.translate(user_pronoun_en, lang_tgt=chosen_lang)
 who_option_lang = translator.translate(who_option, lang_tgt=chosen_lang)
 
-# if os.path.exists(state_file_name):
-#     # if exist, read current one 
-#     conversation_fp= open(state_file_name,"w+")
-# else:
-#     # if not exist, create a new file with default prompts
-#     conversation_fp= open(state_file_name,"w+")    
+if os.path.exists(state_file_name):
+    # if exist, read current one 
+    conversation_fp= open(state_file_name,"a")
+else:
+    # if not exist, create a new file with default prompts
+    conversation_fp= open(state_file_name,"w+")    
 #     conversation_fp.write(init_prompt) 
-conversation_fp= open(state_file_name,"w+") 
+ 
 current_conver_en = conversation_fp.read() # current conversation NOT include init_prompt
 current_conver_lang = translator.translate(current_conver_en, lang_tgt=chosen_lang)
 
@@ -182,8 +182,8 @@ if show_eng:
     col1.text_area('Conversation so far', current_conver_en, height=300, key = widget_count)
     widget_count += 1
 
-    col1.write(generated_lang)
-    tts = gTTS(generated_lang)
+    col1.write(generated_en)
+    tts = gTTS(generated_en)
     sound_file1 = '1.wav'
     tts.save(sound_file1)
     audio_file = open(sound_file1, 'rb')
