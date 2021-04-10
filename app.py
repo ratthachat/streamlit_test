@@ -161,7 +161,7 @@ if lang_input != '':
     generated_lang = translator.translate(generated_en, lang_tgt=chosen_lang)
     
     # 6.
-    current_conver_lang = current_conver_lang + user_pronoun_lang ": " + lang_input  + f"\n\n{who_option_lang}:" + generated_lang + "\n\n"
+    current_conver_lang = current_conver_lang + user_pronoun_lang + ": " + lang_input  + f"\n\n{who_option_lang}:" + generated_lang + "\n\n"
     title_lang = translator.translate('Conversation so far', lang_tgt=chosen_lang)
     
     col2.text_area(title_lang, current_conver_lang, height=300, key = widget_count)
