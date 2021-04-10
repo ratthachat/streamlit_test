@@ -144,17 +144,18 @@ if lang_input != '':
     hidden_prompt_en = hidden_prompt_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:"
     
     # 4. 
-    response = openai.Completion.create(
-                engine="curie",
-                prompt= hidden_prompt_en,
-                temperature=0.66,
-                max_tokens=100,
-                top_p=1,
-                frequency_penalty=0.6,
-                presence_penalty=0.1,
-                stop=["#####", f'{who_option}:', f'{user_pronoun_en}:']
-                )
-    generated_en = response['choices'][0].text # May use : extract_sentence_ignore_who(
+#     response = openai.Completion.create(
+#                 engine="curie",
+#                 prompt= hidden_prompt_en,
+#                 temperature=0.66,
+#                 max_tokens=100,
+#                 top_p=1,
+#                 frequency_penalty=0.6,
+#                 presence_penalty=0.1,
+#                 stop=["#####", f'{who_option}:', f'{user_pronoun_en}:']
+#                 )
+#     generated_en = response['choices'][0].text # May use : extract_sentence_ignore_who(
+    generated_en = "Yeah , this is sample of English generated texts"
     current_conver_en = current_conver_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:" + generated_en + "\n\n"
     
     # 5. 
