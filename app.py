@@ -153,7 +153,8 @@ if lang_input != '':
     
     # 4. 
     response = openai.Completion.create(
-                engine="curie",
+#                 engine="curie",
+                engine="curie-instruct-beta",
                 prompt= hidden_prompt_en,
                 temperature=0.66,
                 max_tokens=100,
