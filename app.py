@@ -111,21 +111,26 @@ else:
     
 current_conver_en = conversation_fp.read()
     
-translated_context = translator.translate(context_texts, lang_tgt=chosen_lang)
+context_lang = translator.translate(context_texts, lang_tgt=chosen_lang)
 # translated_context2 = translator2.translate(context_texts, dest=chosen_lang).text
-st.markdown(context_texts + '\n\n' + translated_context)
+st.markdown(context_texts + '\n\n' + context_lang)
 
 if show_hidden:
     st.text_area('hidden prompt', current_conver_en, height=300, key = widget_count)
     widget_count += 1
 
 
-##### GPT3 start -- Prompt generation
+##### GPT3 flow start -- Prompt generation
 
 if show_eng:
     col1, col2 = st.beta_columns(2)
 else:
     col2 = st
+
+lang_input = col2.text_input(translator.translate('Your input: ', lang_tgt=chosen_lang))
+en_input = translator.translate(latest_input, lang_tgt='en')
+st.write(lang_input)
+st.write(en_input)
 
 current_conversation = init_conversation
 translated_current_conversation = translator.translate(current_conversation, lang_tgt=chosen_lang)
@@ -160,8 +165,6 @@ audio_file2 = open(sound_file2, 'rb')
 audio_bytes2 = audio_file2.read()
 col2.audio(audio_bytes2)
 
-# latest_input = col2.text_input(translator.translate('Your input: ', lang_tgt=chosen_lang))
-# en_latest_input = translator.translate(latest_input, lang_tgt='en')
 
 if show_eng:
     current_conversation = col1.text_area('conversation so far', current_conversation, height=300, key = widget_count)
