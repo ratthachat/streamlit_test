@@ -104,9 +104,19 @@ user_pronoun_en = 'You'
 user_pronoun_lang = translator.translate(user_pronoun_en, lang_tgt=chosen_lang)
 who_option_lang = translator.translate(who_option, lang_tgt=chosen_lang)
 
+'''
+|          Mode          |  r   |  r+  |  w   |  w+  |  a   |  a+  |
+| :--------------------: | :--: | :--: | :--: | :--: | :--: | :--: |
+|          Read          |  +   |  +   |      |  +   |      |  +   |
+|         Write          |      |  +   |  +   |  +   |  +   |  +   |
+|         Create         |      |      |  +   |  +   |  +   |  +   |
+|         Cover          |      |      |  +   |  +   |      |      |
+| Point in the beginning |  +   |  +   |  +   |  +   |      |      |
+|    Point in the end    |      |      |      |      |  +   |  +   |
+'''
 if os.path.exists(state_file_name):
     # if exist, read current one 
-    conversation_fp= open(state_file_name,"a")
+    conversation_fp= open(state_file_name,"r+")
 else:
     # if not exist, create a new file with default prompts
     conversation_fp= open(state_file_name,"w+")    
@@ -192,5 +202,5 @@ if show_eng:
 
 #     col1.text_input('Your input:')
 
-conversation_fp.write(current_conver_en)
+conversation_fp.write(user_pronoun_en + ": " + en_input + f"\n\n{who_option}:" + generated_en + "\n\n")
 conversation_fp.close()
