@@ -137,8 +137,6 @@ lang_input = col2.text_input(translator.translate('Your input: ', lang_tgt=chose
 if lang_input != '':
     # 2.
     en_input = translator.translate(lang_input, lang_tgt='en')
-    st.write(lang_input)
-    st.write(en_input)
     
     # 3.
     hidden_prompt_en = hidden_prompt_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:"
@@ -179,6 +177,8 @@ if lang_input != '':
 
 
 if show_eng:
+    col1.write(en_input)
+
     col1.text_area('Conversation so far', current_conver_en, height=300, key = widget_count)
     widget_count += 1
 
@@ -192,4 +192,5 @@ if show_eng:
 
 #     col1.text_input('Your input:')
 
+conversation_fp.write(current_conver_en)
 conversation_fp.close()
