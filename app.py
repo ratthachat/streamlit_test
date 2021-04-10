@@ -98,80 +98,91 @@ def get_init_prompt(start_sentence, level, who_option):
 ######## end helper functions
 
 ### Start Bot layout
-context_texts = f'You meet a {who_option.lower()} at a {where_option.lower()}. You can talk anything to that {who_option.lower()} here, just like real-life conversation'
-init_prompt, init_conversation = get_init_prompt(context_texts, level_option, who_option)
+context_en = f'You meet a {who_option.lower()} at a {where_option.lower()}. You can talk anything to that {who_option.lower()} here, just like real-life conversation'
+init_prompt_en, init_conversation_en = get_init_prompt(context_texts, level_option, who_option)
+user_pronoun_en = 'You'
+user_pronoun_lang = translator.translate(user_pronoun_en, lang_tgt=chosen_lang)
+who_option_lang = translator.translate(who_option, lang_tgt=chosen_lang)
 
-if os.path.exists(state_file_name):
-    # if exist, read current one 
-    conversation_fp= open(state_file_name,"w+")
-else:
-    # if not exist, create a new file with default prompts
-    conversation_fp= open(state_file_name,"w+")    
-    conversation_fp.write(init_prompt)
-    
-current_conver_en = conversation_fp.read()
-    
-context_lang = translator.translate(context_texts, lang_tgt=chosen_lang)
-# translated_context2 = translator2.translate(context_texts, dest=chosen_lang).text
-st.markdown(context_texts + '\n\n' + context_lang)
+# if os.path.exists(state_file_name):
+#     # if exist, read current one 
+#     conversation_fp= open(state_file_name,"w+")
+# else:
+#     # if not exist, create a new file with default prompts
+#     conversation_fp= open(state_file_name,"w+")    
+#     conversation_fp.write(init_prompt) 
+conversation_fp= open(state_file_name,"w+") 
+current_conver_en = conversation_fp.read() # current conversation NOT include init_prompt
+current_conver_lang = translator.translate(current_conver_en, lang_tgt=chosen_lang)
+
+context_lang = translator.translate(context_en, lang_tgt=chosen_lang)
+st.markdown(context_en + '\n\n' + context_lang)
+
+hidden_prompt_en = init_prompt_en + context_en + '\n\n' + current_conver_en
 
 if show_hidden:
-    st.text_area('hidden prompt', current_conver_en, height=300, key = widget_count)
+    st.text_area('hidden prompt', hidden_prompt_en, height=300, key = widget_count)
     widget_count += 1
-
-
-##### GPT3 flow start -- Prompt generation
 
 if show_eng:
     col1, col2 = st.beta_columns(2)
 else:
     col2 = st
 
+##### GPT3 flow start -- Prompt generation
+
+# 1. 
 lang_input = col2.text_input(translator.translate('Your input: ', lang_tgt=chosen_lang))
-en_input = translator.translate(latest_input, lang_tgt='en')
-st.write(lang_input)
-st.write(en_input)
 
-current_conversation = init_conversation
-translated_current_conversation = translator.translate(current_conversation, lang_tgt=chosen_lang)
-
-title_lang = translator.translate('conversation so far', lang_tgt=chosen_lang)
-user_conversation = col2.text_area(title_lang, translated_current_conversation, height=300, key = widget_count)
-widget_count += 1
-
-en_user_conversation = translator.translate(user_conversation, lang_tgt='en')
-
-response = openai.Completion.create(
-    engine="curie",
-    prompt= en_user_conversation,
-    temperature=0.66,
-    max_tokens=100,
-    top_p=1,
-    frequency_penalty=0.6,
-    presence_penalty=0.1,
-    stop=["#####", f'{who_option}:', f'You:']
-  )
-  
-generated_texts = response['choices'][0].text
-
-latest_bot_reply = extract_sentence_ignore_who(generated_texts)
-translated_latest_bot_reply = translator.translate(latest_bot_reply, lang_tgt=chosen_lang)
-
-col2.write(translated_latest_bot_reply)
-tts2 = gTTS(translated_latest_bot_reply,lang=chosen_lang)
-sound_file2 = '2.wav'
-tts2.save(sound_file2)
-audio_file2 = open(sound_file2, 'rb')
-audio_bytes2 = audio_file2.read()
-col2.audio(audio_bytes2)
+if lang_input != '':
+    # 2.
+    en_input = translator.translate(lang_input, lang_tgt='en')
+    st.write(lang_input)
+    st.write(en_input)
+    
+    # 3.
+    hidden_prompt_en = hidden_prompt_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:"
+    
+    # 4. 
+    response = openai.Completion.create(
+                engine="curie",
+                prompt= hidden_prompt_en,
+                temperature=0.66,
+                max_tokens=100,
+                top_p=1,
+                frequency_penalty=0.6,
+                presence_penalty=0.1,
+                stop=["#####", f'{who_option}:', f'{user_pronoun_en}:']
+                )
+    generated_en = response['choices'][0].text # May use : extract_sentence_ignore_who(
+    current_conver_en = current_conver_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:" + generated_en + "\n\n"
+    
+    # 5. 
+    generated_lang = translator.translate(generated_en, lang_tgt=chosen_lang)
+    
+    # 6.
+    current_conver_lang = current_conver_lang + user_pronoun_lang ": " + lang_input  + f"\n\n{who_option_lang}:" + generated_lang + "\n\n"
+    title_lang = translator.translate('Conversation so far', lang_tgt=chosen_lang)
+    
+    col2.text_area(title_lang, current_conver_lang, height=300, key = widget_count)
+    widget_count += 1
+    
+    col2.write(generated_lang)
+    # 7.
+    tts_lang = gTTS(generated_lang,lang=chosen_lang)
+    sound_lang = 'lang.wav'
+    tts_lang.save(sound_lang)
+    audio_lang = open(sound_lang, 'rb')
+    audio_bytes_lang = audio_lang.read()
+    col2.audio(audio_bytes_lang)
 
 
 if show_eng:
-    current_conversation = col1.text_area('conversation so far', current_conversation, height=300, key = widget_count)
+    col1.text_area('Conversation so far', current_conver_en, height=300, key = widget_count)
     widget_count += 1
 
-    col1.write(latest_bot_reply)
-    tts = gTTS(latest_bot_reply)
+    col1.write(generated_lang)
+    tts = gTTS(generated_lang)
     sound_file1 = '1.wav'
     tts.save(sound_file1)
     audio_file = open(sound_file1, 'rb')
