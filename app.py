@@ -49,7 +49,9 @@ who_option = st.sidebar.selectbox('A person you talk with :',
                               ('Friend', 
                                'Staff', 
                                'Teacher',
-                               'Kid'
+                               'Kid',
+                               'Scientist',
+                               'Doctor',
                               )
                              )
 st.sidebar.write('You selected:', who_option)
@@ -66,6 +68,9 @@ where_option = st.sidebar.selectbox('At a place :',
                                'University',
                                'Library',
                                'Bookshop',
+                               'Hospital',
+                               'Science Lab',
+                               'Computer Lab',
                                'Online Chat',
                               )
                              )
