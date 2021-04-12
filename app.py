@@ -75,7 +75,7 @@ where_option = st.sidebar.selectbox('At a place :',
 st.sidebar.write('You selected:', where_option)
 
 show_hidden = st.sidebar.checkbox('Show Hidden Example', value=True)
-openai.api_key = st.sidebar.text_input('OpenAI Key:',"sk-XxWUkLMG9EEhGZZq2fNmWCiU94moGLHTiHahy") # this is incomplete
+openai.api_key = st.secrets['gpt3_key'] #st.sidebar.text_input('OpenAI Key:',) # this is incomplete
 
 
 ##########  End sidebar
@@ -99,8 +99,10 @@ def get_init_prompt(start_sentence, level, who_option):
   return init_prompt, init_user_conversation
 
 def my_translator(sentence, lang_tgt=chosen_lang):
+    if lang_tgt == 'en':
+        return sentence
+    
     translator = google_translator()
-    # translator2 = Translator()
     return translator.translate(sentence, lang_tgt=lang_tgt)
 
 ######## end helper functions
