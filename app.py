@@ -99,8 +99,8 @@ def get_init_prompt(start_sentence, level, who_option):
   return init_prompt, init_user_conversation
 
 def my_translator(sentence, lang_tgt=chosen_lang):
-    if lang_tgt == 'en':
-        return sentence
+#     if lang_tgt == 'en':
+#         return sentence
     
     translator = google_translator()
     return translator.translate(sentence, lang_tgt=lang_tgt)
