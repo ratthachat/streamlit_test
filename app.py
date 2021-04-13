@@ -7,7 +7,8 @@ from gtts import gTTS
 import os
 import openai
 
-state_file_name = 'all_chats_with_hidden_prompt_eng.txt'
+state_file_en = 'all_chats_with_hidden_prompt_eng.txt'
+state_file_lang = 'all_chats_with_hidden_prompt_lang.txt'
 
 ##########################
 widget_count= 0
@@ -18,8 +19,9 @@ st.write(f'streamlit version : {st.__version__}')
 
 ##### Sidebar
 if st.sidebar.button('Reset all conversation'):
-    if os.path.exists(state_file_name):
-        os.remove(state_file_name)
+    if os.path.exists(state_file_en):
+        os.remove(state_file_en)
+        os.remove(state_file_lang)
         st.sidebar.warning('Reset conversation')
 
 st.sidebar.markdown('-----')
@@ -124,16 +126,17 @@ who_option_lang = my_translator(who_option, lang_tgt=chosen_lang)
 # | Point in the beginning |  +   |  +   |  +   |  +   |      |      |
 # |    Point in the end    |      |      |      |      |  +   |  +   |
 
-if os.path.exists(state_file_name):
+if os.path.exists(state_file_en):
     # if exist, read current one 
-    conversation_fp= open(state_file_name,"r+")
+    conversation_fp= open(state_file_en,"r+")
+    conversation_lang_fp= open(state_file_lang,"r+")
 else:
     # if not exist, create a new file with default prompts
-    conversation_fp= open(state_file_name,"w+")    
-#     conversation_fp.write(init_prompt) 
+    conversation_fp= open(state_file_en,"w+")    
+    conversation_lang_fp= open(state_file_lang,"w+")
  
 current_conver_en = conversation_fp.read() # current conversation NOT include init_prompt
-current_conver_lang = my_translator(current_conver_en, lang_tgt=chosen_lang)
+current_conver_lang = conversation_lang_fp.read() #my_translator(current_conver_en, lang_tgt=chosen_lang)
 
 context_lang = my_translator(context_en, lang_tgt=chosen_lang)
 st.markdown(context_en + '\n\n' + context_lang)
@@ -215,3 +218,6 @@ if show_eng:
 
 conversation_fp.write(user_pronoun_en + ": " + en_input + f"\n\n{who_option}:" + generated_en + "\n\n")
 conversation_fp.close()
+
+conversation_lang_fp.write(user_pronoun_lang + ": " + lang_input + f"\n\n{who_option_lang}:" + generated_lang + "\n\n")
+conversation_lang_fp.close()
