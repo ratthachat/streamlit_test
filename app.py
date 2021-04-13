@@ -105,13 +105,13 @@ def get_init_prompt(start_sentence, level, who_option):
   init_prompt = Jung_Lingo_init + Jung_Lingo_short_examples + current_selection # + init_conversation
   return init_prompt, init_user_conversation
 
-def my_translator(sentence, lang_tgt=chosen_lang):
-#     if lang_tgt == 'en':
-#         return sentence
+def my_translator(sentence, lang_tgt=chosen_lang, lang_src='en'):
+    if lang_tgt ==  lang_src:
+        return sentence
     
 #     translator = google_translator() # free, phase-based stupid model
 #     return translator.translate(sentence, lang_tgt=lang_tgt)
-    output = goog_translate_service.translations().list(source='en', target=lang_tgt, q=sentence).execute()['translations'][0] # smart expensitve NMT model
+    output = goog_translate_service.translations().list(source=lang_src, target=lang_tgt, q=sentence).execute()['translations'][0] # smart expensitve NMT model
     return output['translatedText']
     
 
@@ -167,7 +167,7 @@ lang_input = col2.text_input(my_translator('Your input: ', lang_tgt=chosen_lang)
 
 if lang_input != '':
     # 2.
-    en_input = my_translator(lang_input, lang_tgt='en')
+    en_input = my_translator(lang_input, lang_tgt='en', lang_src=chosen_lang)
     
     # 3.
     hidden_prompt_en = hidden_prompt_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:"
