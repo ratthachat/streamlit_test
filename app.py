@@ -6,7 +6,7 @@ from gtts import gTTS
 
 import os
 import openai
-
+import html
 from googleapiclient.discovery import build
 
 
@@ -112,7 +112,7 @@ def my_translator(sentence, lang_tgt=chosen_lang, lang_src='en'):
 #     translator = google_translator() # free, phase-based stupid model
 #     return translator.translate(sentence, lang_tgt=lang_tgt)
     output = goog_translate_service.translations().list(source=lang_src, target=lang_tgt, q=sentence).execute()['translations'][0] # smart expensitve NMT model
-    return output['translatedText']
+    return html.unescape(output['translatedText'])
     
 
 ######## end helper functions
