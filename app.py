@@ -111,7 +111,7 @@ def my_translator(sentence, lang_tgt=chosen_lang):
     
 #     translator = google_translator() # free, phase-based stupid model
 #     return translator.translate(sentence, lang_tgt=lang_tgt)
-    output = service.translations().list(source='en', target=lang_tgt, q=sentence).execute()['translations'][0] # smart expensitve NMT model
+    output = goog_translate_service.translations().list(source='en', target=lang_tgt, q=sentence).execute()['translations'][0] # smart expensitve NMT model
     return output['translatedText']
     
 
