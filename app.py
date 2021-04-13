@@ -184,7 +184,7 @@ if lang_input != '':
                 presence_penalty=0.1,
                 stop=["#####", f'{who_option}:', f'{user_pronoun_en}:']
                 )
-    generated_en = response['choices'][0].text # May use : extract_sentence_ignore_who(
+    generated_en = html.unescape(response['choices'][0].text) # May use : extract_sentence_ignore_who(
 #     generated_en = "Yeah , this is sample of English generated texts" # for debug
     current_conver_en = current_conver_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:" + generated_en + "\n\n"
     
