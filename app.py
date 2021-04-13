@@ -40,6 +40,14 @@ st.sidebar.write('You selected:', chosen_lang)
 
 show_eng = st.sidebar.checkbox('Show English conversation', value=True)
 
+translator_option = st.sidebar.selectbox('Choose Translator :',
+                              ('Paid Google', 
+                               'Free Google', 
+                              )
+                             )
+st.sidebar.write('You selected:', translator_option)
+
+
 level_option = st.sidebar.selectbox('Conversation level :',
                               ('8-Years Old', 
                                'High School', 
@@ -109,10 +117,13 @@ def my_translator(sentence, lang_tgt=chosen_lang, lang_src='en'):
     if lang_tgt ==  lang_src:
         return sentence
     
-#     translator = google_translator() # free, phase-based stupid model
-#     return translator.translate(sentence, lang_tgt=lang_tgt)
-    output = goog_translate_service.translations().list(source=lang_src, target=lang_tgt, q=sentence).execute()['translations'][0] # smart expensitve NMT model
-    return html.unescape(output['translatedText'])
+    if translator_option=='Paid Google':
+            output = goog_translate_service.translations().list(source=lang_src, target=lang_tgt, q=sentence).execute()['translations'][0] # smart expensitve NMT model
+            out = html.unescape(output['translatedText'])
+            return out
+    else:
+            translator = google_translator() # free, phase-based stupid model
+            return html.unescape(translator.translate(sentence, lang_tgt=lang_tgt))
     
 
 ######## end helper functions
