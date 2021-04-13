@@ -5,3 +5,4 @@ googletrans==3.1.0a0
 google_trans_new
 booste
 gTTS
+google-api-python-client
