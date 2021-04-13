@@ -41,8 +41,8 @@ st.sidebar.write('You selected:', chosen_lang)
 show_eng = st.sidebar.checkbox('Show English conversation', value=True)
 
 translator_option = st.sidebar.selectbox('Choose Translator :',
-                              ('Paid Google', 
-                               'Free Google', 
+                              ('Free Google', 
+                               'Paid Google', 
                               )
                              )
 st.sidebar.write('You selected:', translator_option)
