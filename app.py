@@ -7,6 +7,9 @@ from gtts import gTTS
 import os
 import openai
 
+from googleapiclient.discovery import build
+
+
 state_file_en = 'all_chats_with_hidden_prompt_eng.txt'
 state_file_lang = 'all_chats_with_hidden_prompt_lang.txt'
 
@@ -78,7 +81,9 @@ st.sidebar.write('You selected:', where_option)
 
 show_hidden = st.sidebar.checkbox('Show Hidden Example', value=True)
 openai.api_key = st.secrets['gpt3_key'] #st.sidebar.text_input('OpenAI Key:',) # this is incomplete
+google_translate_key = st.secrets['google_translate_key']
 
+goog_translate_service = build('translate', 'v2', developerKey=google_translate_key) #500K chars / month -- AWS and Azure give 2M free chars
 
 ##########  End sidebar
 # helper functions
@@ -104,8 +109,11 @@ def my_translator(sentence, lang_tgt=chosen_lang):
 #     if lang_tgt == 'en':
 #         return sentence
     
-    translator = google_translator()
-    return translator.translate(sentence, lang_tgt=lang_tgt)
+#     translator = google_translator() # free, phase-based stupid model
+#     return translator.translate(sentence, lang_tgt=lang_tgt)
+    output = service.translations().list(source='en', target=lang_tgt, q=sentence).execute()['translations'][0] # smart expensitve NMT model
+    return output['translatedText']
+    
 
 ######## end helper functions
 
