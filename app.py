@@ -25,6 +25,7 @@ st.markdown('''
             Content toxic filtering is used for both user and bot texts.
             ''')
 st.write(f'streamlit version : {st.__version__}')
+st.markdown('---')
 
 ##### Sidebar
 if st.sidebar.button('Reset all conversation'):
