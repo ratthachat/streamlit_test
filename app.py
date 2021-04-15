@@ -197,7 +197,7 @@ def is_safe(text):
         output_label = "2"
 
     if output_label == "2": # Unsafe, change output
-        return True
+        return False
            
 def safe_conversation_generator(hidden_prompt_en):
     response = openai.Completion.create(
