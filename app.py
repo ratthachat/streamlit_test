@@ -12,6 +12,7 @@ from googleapiclient.discovery import build
 
 state_file_en = 'all_chats_with_hidden_prompt_eng.txt'
 state_file_lang = 'all_chats_with_hidden_prompt_lang.txt'
+MAX_USER_CHARS = 200 # user's input is limited to approx. 50 tokens as suggested by OpenAI
 
 ##########################
 widget_count= 0
@@ -103,6 +104,7 @@ where_option = st.sidebar.selectbox('At a place :',
                                'Your Own House',
                                'Online Chat',
                                'Gym',
+                               'Zoo',
                               )
                              )
 st.sidebar.write('You selected:', where_option)
@@ -270,7 +272,7 @@ lang_input = col2.text_input(my_translator('Your input: ', lang_tgt=chosen_lang)
 
 if lang_input != '':
     # 2.
-    en_input = my_translator(lang_input, lang_tgt='en', lang_src=chosen_lang)
+    en_input = my_translator(lang_input, lang_tgt='en', lang_src=chosen_lang)[:MAX_USER_CHARS]
     
     # 2.1 safety check
     if is_safe(en_input) == False:
