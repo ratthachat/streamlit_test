@@ -110,7 +110,8 @@ where_option = st.sidebar.selectbox('At a place :',
 st.sidebar.write('You selected:', where_option)
 
 show_hidden = st.sidebar.checkbox('Show Hidden Example', value=True)
-openai.api_key = st.secrets['gpt3_key'] #st.sidebar.text_input('OpenAI Key:',) # this is incomplete
+# openai.api_key = st.secrets['gpt3_key']
+openai.api_key = st.sidebar.text_input('OpenAI Key:',) # this is incomplete
 google_translate_key = st.secrets['google_translate_key']
 
 goog_translate_service = build('translate', 'v2', developerKey=google_translate_key) #500K chars / month -- AWS and Azure give 2M free chars
