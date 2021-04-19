@@ -90,6 +90,7 @@ where_option = st.sidebar.selectbox('At a place :',
                               ('Shopping Mall', 
                                'Restaurant', 
                                'Cafeteria',
+                               'Drug Store',
                                'School',
                                'Cinema',
                                'Public Park',
@@ -109,7 +110,10 @@ where_option = st.sidebar.selectbox('At a place :',
                              )
 st.sidebar.write('You selected:', where_option)
 
+listen_option = st.sidebar.checkbox('Listen Mode', value=False)
+
 show_hidden = st.sidebar.checkbox('Show Hidden Example', value=True)
+
 # openai.api_key = st.secrets['gpt3_key']
 openai.api_key = st.sidebar.text_input('OpenAI Key:',) # this is incomplete
 google_translate_key = st.secrets['google_translate_key']
@@ -221,6 +225,25 @@ def safe_conversation_generator(hidden_prompt_en):
         generated_text = "Hmmm... I'm almost speak impolite words due to yours. Please speak again politely."
 
     return generated_text
+
+def long_conversation_generator(hidden_prompt_en):
+    response = openai.Completion.create(
+                engine="curie", # "davince",
+                prompt= hidden_prompt_en,
+                temperature=0.7,
+                max_tokens=555,
+                top_p=1,
+                frequency_penalty=0.6,
+                presence_penalty=0.1,
+                stop=["#####"]
+                )
+    generated_text = html.unescape(response['choices'][0].text) # May use : extract_sentence_ignore_who()
+           
+    if is_safe(generated_text) == False:
+        generated_text = "There's a temporary error on generator. Please try again."
+
+    return generated_text
+
 ######## end helper functions
 
 ### Start Bot layout
@@ -268,47 +291,61 @@ else:
 
 ##### GPT3 flow start -- Prompt generation
 
-# 1. 
-lang_input = col2.text_input(my_translator('Your input: ', lang_tgt=chosen_lang))
+if listen_mode == False: # Chatting mode
+    # 1. 
+    lang_input = col2.text_input(my_translator('Your input: ', lang_tgt=chosen_lang))
 
-if lang_input != '':
-    # 2.
-    en_input = my_translator(lang_input, lang_tgt='en', lang_src=chosen_lang)[:MAX_USER_CHARS]
+    if lang_input != '':
+        # 2.
+        en_input = my_translator(lang_input, lang_tgt='en', lang_src=chosen_lang)[:MAX_USER_CHARS]
     
-    # 2.1 safety check
-    if is_safe(en_input) == False:
-        lang_input=''
-        en_input=''
-        st.write('The input texts are inappropriate and detected as toxic. Please re-input the non-toxic texts.')
+        # 2.1 safety check
+        if is_safe(en_input) == False:
+            lang_input=''
+            en_input=''
+            st.write('The input texts are inappropriate and detected as toxic. Please re-input the non-toxic texts.')
 
-if lang_input != '':
-    # 3.
-    hidden_prompt_en = hidden_prompt_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:"
+    if lang_input != '':
+        # 3.
+        hidden_prompt_en = hidden_prompt_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:"
     
-    # 4. 
-    generated_en = safe_conversation_generator(hidden_prompt_en)
-    current_conver_en = current_conver_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:" + generated_en + "\n\n"
+        # 4. 
+        generated_en = safe_conversation_generator(hidden_prompt_en)
+        current_conver_en = current_conver_en + user_pronoun_en + ": " + en_input + f"\n\n{who_option}:" + generated_en + "\n\n"
     
-    # 5. 
+        # 5. 
+        generated_lang = my_translator(generated_en, lang_tgt=chosen_lang)
+    
+        # 6.
+        current_conver_lang = current_conver_lang + user_pronoun_lang + ": " + lang_input  + f"\n\n{who_option_lang}:" + generated_lang + "\n\n"
+        title_lang = my_translator('Conversation so far', lang_tgt=chosen_lang)
+    
+        col2.text_area(title_lang, current_conver_lang, height=300, key = widget_count)
+        widget_count += 1
+    
+        col2.write(generated_lang)
+        # 7.
+        tts_lang = gTTS(generated_lang,lang=chosen_lang)
+        sound_lang = 'lang.wav'
+        tts_lang.save(sound_lang)
+        audio_lang = open(sound_lang, 'rb')
+        audio_bytes_lang = audio_lang.read()
+        col2.audio(audio_bytes_lang)
+else: # listening mode, no input
+    hidden_prompt_en = hidden_prompt_en + user_pronoun_en + ":"
+    generated_en = long_conversation_generator(hidden_prompt_en)
     generated_lang = my_translator(generated_en, lang_tgt=chosen_lang)
-    
-    # 6.
-    current_conver_lang = current_conver_lang + user_pronoun_lang + ": " + lang_input  + f"\n\n{who_option_lang}:" + generated_lang + "\n\n"
     title_lang = my_translator('Conversation so far', lang_tgt=chosen_lang)
-    
-    col2.text_area(title_lang, current_conver_lang, height=300, key = widget_count)
+    col2.text_area(title_lang, generated_lang, height=300, key = widget_count)
     widget_count += 1
     
-    col2.write(generated_lang)
-    # 7.
     tts_lang = gTTS(generated_lang,lang=chosen_lang)
     sound_lang = 'lang.wav'
     tts_lang.save(sound_lang)
     audio_lang = open(sound_lang, 'rb')
     audio_bytes_lang = audio_lang.read()
     col2.audio(audio_bytes_lang)
-
-
+    
 if show_eng:
     col1.write(en_input)
 
