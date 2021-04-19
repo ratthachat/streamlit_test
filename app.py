@@ -231,7 +231,7 @@ def safe_conversation_generator(hidden_prompt_en):
 
 def long_conversation_generator(hidden_prompt_en):
     response = openai.Completion.create(
-                engine="curie", # "davince",
+                engine="davinci", # "curie",
                 prompt= hidden_prompt_en,
                 temperature=0.7,
                 max_tokens=555,
