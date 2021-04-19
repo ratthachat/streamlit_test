@@ -291,7 +291,7 @@ else:
 
 ##### GPT3 flow start -- Prompt generation
 
-if listen_mode == False: # Chatting mode
+if listen_option == False: # Chatting mode
     # 1. 
     lang_input = col2.text_input(my_translator('Your input: ', lang_tgt=chosen_lang))
 
