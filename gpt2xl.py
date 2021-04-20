@@ -142,7 +142,7 @@ def safe_conversation_generator(hidden_prompt_en):
     return False
 
 def long_conversation_generator(hidden_prompt_en):
-    out_list = booste.gpt2(booste_api, hidden_prompt_en, 50)
+    out_list = booste.gpt2(booste_api, hidden_prompt_en, 30)
     generated_text = html.unescape(" ".join(out_list))
            
     if is_safe(generated_text) == False:
@@ -188,7 +188,7 @@ else:
 
 ##### GPT3 flow start -- Prompt generation
 if True: # listening mode, no input
-    generated_en = long_conversation_generator(hidden_prompt_en)
+    generated_en = hidden_prompt_en + long_conversation_generator(hidden_prompt_en)
     generated_lang = my_translator(generated_en, lang_tgt=chosen_lang)
     title_lang = my_translator('Generated Conversation', lang_tgt=chosen_lang)
     col2.text_area(title_lang, generated_lang, height=300, key = widget_count)
