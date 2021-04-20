@@ -123,7 +123,7 @@ def extract_sentence_ignore_who(sentence):
   
 @st.cache
 def get_init_prompt(start_sentence, level, who_option, listen_mode=False):
-    init_prompt = 'Once upon a time, there is a village of Unicorn'
+    init_prompt = 'Once upon a time, there is a village of Unicorn '
     init_user_conversation = ''
     return init_prompt, init_user_conversation
 
