@@ -160,15 +160,6 @@ user_pronoun_lang = my_translator(user_pronoun_en, lang_tgt=chosen_lang)
 who_option_lang = my_translator(who_option, lang_tgt=chosen_lang)
 
 
-# |          Mode          |  r   |  r+  |  w   |  w+  |  a   |  a+  |
-# | :--------------------: | :--: | :--: | :--: | :--: | :--: | :--: |
-# |          Read          |  +   |  +   |      |  +   |      |  +   |
-# |         Write          |      |  +   |  +   |  +   |  +   |  +   |
-# |         Create         |      |      |  +   |  +   |  +   |  +   |
-# |         Cover          |      |      |  +   |  +   |      |      |
-# | Point in the beginning |  +   |  +   |  +   |  +   |      |      |
-# |    Point in the end    |      |      |      |      |  +   |  +   |
-
 if os.path.exists(state_file_en):
     # if exist, read current one 
     conversation_fp= open(state_file_en,"r+")
@@ -184,7 +175,7 @@ current_conver_lang = conversation_lang_fp.read() #my_translator(current_conver_
 context_lang = my_translator(context_en, lang_tgt=chosen_lang)
 st.markdown(context_en + '\n\n' + context_lang)
 
-hidden_prompt_en = init_prompt_en + context_en + '\n\n' + current_conver_en
+hidden_prompt_en = init_prompt_en
 
 if show_hidden:
     st.text_area('hidden prompt', hidden_prompt_en, height=300, key = widget_count)
